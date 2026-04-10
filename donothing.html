@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessible LaTeX to PreTeXt preprocessor</title>
+  <link rel="stylesheet" href="./src/style.css">
+
+</head>
+<body>
+<!--
+  <div class="container">
+    <h1>Accessible LaTeX Preprocessor</h1>
+
+    <div class="upload-section">
+      <div class="upload-area" id="uploadArea">
+        <div class="upload-text">Click or drag to upload</div>
+        <div class="upload-hint">Supports .tex, .zip, and .tar.gz files</div>
+        <input type="file" id="fileInput" accept=".tex, .zip,.gz,.tar.gz">
+        <button class="button" id="selectButton">Select File</button>
+      </div>
+    </div>
+   </div>
+-->
+
+<!--
+
+      <div class="status" id="uploadStatus"></div>
+    </div>
+
+   <div class="hide" id="preprocessSection">
+   <h2>The following changes were made automatically</h2>
+   <div class="preprocess" id="preprocessStatus"></div>
+   </div>
+
+   <div class="hide" id="deletedSection">
+   <h2>The following markup was deleted</h2>
+   <div class="deleted" id="deletedStatus"></div>
+   </div>
+
+   <div class="hide" id="savedSection">
+   <h2>\def and \renewcommand  which were deleted. <br>All \newcommand in the body will be moved to preamble</h2>
+   <div class="saved-content deleted" id="savedStatus"></div>
+   </div>
+
+   <div class="hide" id="anomalySection">
+   <h2>The following issues may affect the conversion to PreTeXt/HTML</h2>
+   <div class="inprocess" id="anomalyStatus">
+<span class="oldmarkup anchor">Current markup</span><span class="default">default replacement</span>
+</div>
+   </div>
+
+    <div id="scannedTextArea"></div>
+
+    <div class="results-section" id="resultsSection">
+      <div class="results-header">Files (<span id="fileCount">0</span>)</div>
+      <div class="file-list" id="fileList"></div>
+      <div id="selectedFileContent"></div>
+    <button class="reconstruct-button" id="reassembleButton">Reassemble document</button>
+    </div>
+    <button class="structure-button" id="structureButton">Show structure</button>
+
+
+  <div oninput='this.style.height = this.scrollHeight + "px"' style="width: 700px; " class="structure" id="structureSection"></div>
+-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<script type="module" src="./src/main.js"></script>
+
+</body>
+</html>
