@@ -28,7 +28,7 @@ export let badPlainTeXdirectives = [  // replace, or just delete
 // NewDocumentCommand
 //  declaretheorem , declaretheoremstyle
 // newenvironment
-// \vspace{1cm} medskip
+// medskip
 
 export let specialBadMacros = [
    ["accessibility","consistency", ["renewcommand"]],
@@ -62,8 +62,8 @@ export let eliminateAndSave = [
 // not scanning for these:  "global","long"
 
 export let badEverywhereMacrosPlus = [  // have a required argument
-   ["presentation","spacing_vertical", [["vspace",1]]],
-   ["presentation","spacing_vertical", [["hspace",1]]],
+//   ["presentation","spacing_vertical", [["vspace",1]]],
+   ["presentation","spacing_horizontal", [["hspace",1]]],
    ["other","other", [["date",1]]],
    ["accessibility","colors", [["color",1],["textcolor",1], ["mathcolor",1],["definecolor",3]]],
 ];

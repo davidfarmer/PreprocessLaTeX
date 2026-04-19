@@ -32,7 +32,7 @@ export let issuesDictionary = {
               "value": ""},
    "ambiguous": {"title": "The following may not convert as intended: [markup, default]",
               "value": []},
-   "badmacros": {"title": "\\def and \\renewcommand were deleted.\nAll \newcommand in the body will be moved to preamble",
+   "badmacros": {"title": "\\def, \\providecommand, and \\renewcommand were deleted.\nAll \newcommand in the body will be moved to preamble",
               "value": ""},
 }
 
@@ -257,6 +257,9 @@ function describeFiles() {
 // console.log("                  baseFile", baseFile);
    filesDictionary[baseFile] = expandInputs(filesDictionary[baseFile]).replace(/(\n *){3,}/g, "\n\n");
    let mainfile = filesDictionary[baseFile];
+
+   mainfile = specialPreprocess(mainfile);
+
    mainfile = fixPlainTeX(mainfile, badPlainTeXdirectives);
    mainfile = fixPlainTeX(mainfile, badPlainTeXdirectives);  // twice: {\sf\bf ...}
 //   mainfile = fixPlainTeX(mainfile,unnecessaryLaTeX);
@@ -346,7 +349,7 @@ function fixPlainTeX(str, lookingFor) {
         str = str.replace(re, replacement)
      }
   }
-    str = specialPreprocess(str);
+//    str = specialPreprocess(str);
     return str
 }
 
@@ -362,6 +365,10 @@ function specialPreprocess(text) {
         showProcessStatus(["(\\ref{...})",  "\\eqref{...}"], thisMatch.length);
         text = text.replace(re, replacement)
      }
+
+    text = text.replace(/\\vskip\*? *([0-9]+|-) *([a-zA-Z]+).*/g, "\\vspace{$1$2}");
+    text = text.replace(/(\\vspace)\*? */g, "$1");
+    text = text.replace(/(\\vspace) *{([0-9]+|-) *([a-zA-Z]+).*?}/g, "$1{$2$3}");
 
     return text
 }
@@ -418,6 +425,7 @@ function displayFileContent(fileName) {
 
      const displayContent = filesDictionary[fileName];
      full_structure = splitup(displayContent);
+console.log("full_structure", full_structure);
      let visible_structure = showstructure(full_structure);
      document.getElementById('structureSection').innerHTML = visible_structure;
   });
@@ -547,12 +555,12 @@ function splitup(text) {
 //   }
 //    console.log("A textTitle", textTitle);
 
-   let remacros = preamble.match(/\\renewcommand.*/g);
+   let remacros = preamble.match(/\\(renew|provide)command.*/g);
 //    console.log("remacros", remacros);
-   preamble = preamble.replace(/\\renewcommand.*/g, "");
-   let rebodymacros = maintext.match(/\\renewcommand.*/g);
+   preamble = preamble.replace(/\\(renew|provide)command.*/g, "");
+   let rebodymacros = maintext.match(/\\(renew|provide)command.*/g);
 //    console.log("body macros", rebodymacros);
-   maintext = maintext.replace(/\\renewcommand.*/g, "");
+   maintext = maintext.replace(/\\(renew|provide)command.*/g, "");
 
    let mathoperators = preamble.match(/\\DeclareMathOperator.*/g);
    preamble = preamble.replace(/\\DeclareMathOperator.*/g, "");
