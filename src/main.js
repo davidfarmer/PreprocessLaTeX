@@ -22,6 +22,7 @@ const selectedFileContent = document.getElementById('selectedFileContent');
     //  pass  // page does not have a place to report that information
 }
 
+let structureDictionary = {};
 let filesDictionary = {};
 export let issuesDictionary = {
    "unpack": {"title": "Unpacking the file(s)",
@@ -32,7 +33,7 @@ export let issuesDictionary = {
               "value": ""},
    "ambiguous": {"title": "The following may not convert as intended: [markup, default]",
               "value": []},
-   "badmacros": {"title": "\\def, \\providecommand, and \\renewcommand were deleted.\nAll \newcommand in the body will be moved to preamble",
+   "badmacros": {"title": "\\def, \\providecommand, and \\renewcommand were deleted.\nAll \\newcommand in the body will be moved to preamble",
               "value": ""},
 }
 
@@ -110,7 +111,7 @@ async function handleFile(file) {
    const thestructure = describeFiles();  // actually: do some prodessing and make one big file
 // console.log("thestructure",thestructure);
 // console.log("issuesDictionary",issuesDictionary);
-   thestructure["diagnostics"] = issuesDictionary;
+//   thestructure["diagnostics"] = issuesDictionary;
 // console.log("thestructure",thestructure);
    return thestructure
 //     displayFiles();
@@ -266,6 +267,9 @@ function describeFiles() {
    let tmppp = scanForAnomalies(mainfile);
    filesDictionary["TheMainFile.tex"] = tmppp.replace(/(\n *){3,}/g, "\n\n");
    const thestructure = displayFileContent("TheMainFile.tex");
+// console.log("here thestructure", thestructure);
+   thestructure["diagnostics"] = issuesDictionary;
+   structureDictionary = thestructure;
    return thestructure
 }
 
@@ -423,10 +427,11 @@ function displayFileContent(fileName) {
   try {
      document.getElementById('structureButton').addEventListener('click', () => {
 
-     const displayContent = filesDictionary[fileName];
-     full_structure = splitup(displayContent);
-console.log("full_structure", full_structure);
-     let visible_structure = showstructure(full_structure);
+//     const displayContent = filesDictionary[fileName];
+//     full_structure = splitup(displayContent);
+//console.log("full_structure", full_structure);
+//     let visible_structure = showstructure(full_structure);
+     let visible_structure = showstructure(structureDictionary);
      document.getElementById('structureSection').innerHTML = visible_structure;
   });
   } catch {
