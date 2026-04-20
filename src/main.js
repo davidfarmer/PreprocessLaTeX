@@ -370,6 +370,11 @@ function specialPreprocess(text) {
         text = text.replace(re, replacement)
      }
 
+    text = text.replace(/(\\vfil)l\b/g, "$1");
+    text = text.replace(/(\\vfil)(\s*\\vfil\b)+\b/g, "$1");
+    text = text.replace(/(\\vfil)\b/g, "\\vspace{1in}");
+
+
     text = text.replace(/\\vskip\*? *([0-9]+|-) *([a-zA-Z]+).*/g, "\\vspace{$1$2}");
     text = text.replace(/(\\vspace)\*? */g, "$1");
     text = text.replace(/(\\vspace) *{([0-9]+|-) *([a-zA-Z]+).*?}/g, "$1{$2$3}");
@@ -673,7 +678,7 @@ function showstructure(struct) {
      return this_entry
    } else if(typeof struct  == "string") {
      struct = struct.trim();
-     if(struct.length > 100) { const shorterlength = struct.length - 100; struct = struct.substring(0,100) + " + [" + shorterlength + "]"}
+     if(struct.length > 200) { const shorterlength = struct.length - 200; struct = struct.substring(0,200) + " + [" + shorterlength + "]"}
      return struct
    } else { alert("unknown content:" +  typeof struct + ":" + struct) }
 }
