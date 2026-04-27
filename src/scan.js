@@ -15,11 +15,19 @@ export function scanForAnomalies(str) {
 
    let basicerrors = [];
 
+// console.log("str A", str.substring(0,40));
+// console.log("end str A");
+
    let preambleBodyBiblio = separatePieces(str);
 
    let preamble = preambleBodyBiblio[0];
    let maintext = preambleBodyBiblio[1];
    let bibliography = preambleBodyBiblio[2];
+
+// console.log("            WWWWWWWWWW");
+// console.log("1 preamble",preamble.substring(0,40));
+// console.log("1 maintext",maintext.substring(0,40));
+// console.log("1 bibliography",bibliography.substring(0,40));
 
 // console.log("maintext 1", maintext.substring(1,40));
 
@@ -63,6 +71,10 @@ export function scanForAnomalies(str) {
       maintext = noBadEnvironments(maintext, lookfor, "env", "delete")
    }
 
+// console.log("            XXXXX");
+// console.log("2 preamble",preamble.substring(0,40));
+// console.log("2 maintext",maintext.substring(0,40));
+// console.log("2 bibliography",bibliography.substring(0,40));
 //   console.log("maintext",maintext);
 
    return preamble + "\\begin{document}\n" + maintext + "\\begin{thebibliography}\n" + bibliography
@@ -71,13 +83,17 @@ export function scanForAnomalies(str) {
 
 export function separatePieces(str) {
 
+// console.log("str B", str.substring(0,40));
+
    let twopieces = str.split("\\begin{document}");
+
+// console.log(twopieces.length, "twopieces", twopieces);
 
    if(twopieces.length < 2) {
       console.error("missing begin{document} ? " + twopieces.length);
    } else if(twopieces.length > 2) {
       // bug somewhere, where material is duplicated
-      console.error("extra begin{document} ? " + twopieces.length + " pieces, probably a harmless bug");
+      console.error("extra begin{document} ? " + twopieces.length + " check source files");
    }
    const thepreamble = twopieces[0];
    let thebody = twopieces[1];

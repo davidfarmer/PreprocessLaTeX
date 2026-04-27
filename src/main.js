@@ -224,8 +224,6 @@ function parseTarHeader(headerBytes) {
 
 function describeFiles() {
   const files = Object.keys(filesDictionary).sort();
-// console.log("filesTypes",filesTypes);
-// console.log("Object.keys(filesDictionary)",Object.keys(filesDictionary));
   for(let l=0; l<files.length; ++l) {
      const fil = files[l];
      const extension = fil.replace(/^.*\.([^.]*)$/, "$1");
@@ -259,6 +257,7 @@ function describeFiles() {
    filesDictionary[baseFile] = expandInputs(filesDictionary[baseFile]).replace(/(\n *){3,}/g, "\n\n");
    let mainfile = filesDictionary[baseFile];
 
+// console.log("mainfile", mainfile);
    mainfile = specialPreprocess(mainfile);
 
    mainfile = fixPlainTeX(mainfile, badPlainTeXdirectives);
@@ -418,24 +417,12 @@ function displayFiles() {
 }
 
 function displayFileContent(fileName) {
-//  const content = filesDictionary[fileName];
-//  const displayContent = content.replace(/(\n *){3,}/g, "\n\n");
-
-
-//    <div class="file-content">${escapeHtml(displayContent)}</div>
-//  selectedFileContent.innerHTML = `
-//    <div class="file-content">${displayContent}</div>
-//  `;
 
   let full_structure;
 
   try {
      document.getElementById('structureButton').addEventListener('click', () => {
 
-//     const displayContent = filesDictionary[fileName];
-//     full_structure = splitup(displayContent);
-//console.log("full_structure", full_structure);
-//     let visible_structure = showstructure(full_structure);
      let visible_structure = showstructure(structureDictionary);
      document.getElementById('structureSection').innerHTML = visible_structure;
   });
@@ -493,6 +480,8 @@ function escapeHtml(text) {
 
 function splitup(text) {
 
+// console.log("starting splitup");
+
    let theabstract = "";
    if(text.match(/\\begin{abstract}/)) {
      theabstract = text.replace(/^(.*)\\begin{abstract}(.*?)\\end{abstract}(.*)$/s,"$2");
@@ -513,6 +502,10 @@ function splitup(text) {
    textTitle = textTitle.substring(1, textTitle.length - 1);
 
    text = beforeaftertitle[0] + beforeaftertitle[1];
+
+// console.log("text was");
+// console.log(text);
+// console.log("end text was");
 
    let macros = [];
    let macrosplit = text.split(/\\newcommand\b/);
@@ -539,11 +532,22 @@ function splitup(text) {
         mac = mac.trim()
       }
       [thisdef, mac] = firstBracketedString(mac);
-      beforemacros += mac;
+  //    beforemacros += mac;
+      beforemacros += thisdef;
       macros.push("\\newcommand" + thisterm + thisbrack + thisdef);
    }
 
+// console.log("beforemacros was");
+// console.log(beforemacros);
+// console.log("end beforemacros was");
+
+// console.log("mac was");
+// console.log(mac);
+// console.log("end mac was");
    text = beforemacros + mac;
+
+// console.log("text", text);
+// console.log("end text");
 
    let preambleBodyBiblio = separatePieces(text);
 
